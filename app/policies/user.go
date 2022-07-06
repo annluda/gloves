@@ -1,7 +1,7 @@
 package policies
 
 import (
-	userModel "gin_weibo/app/models/user"
+	userModel "gloves/app/models/user"
 
 	"github.com/gin-gonic/gin"
 )

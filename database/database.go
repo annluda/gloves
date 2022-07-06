@@ -3,11 +3,9 @@ package database
 import (
 	"fmt"
 
-	_ "github.com/go-sql-driver/mysql" // mysql
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/lexkong/log"
-
-	"gin_weibo/config"
 )
 
 // DB gorm
@@ -15,16 +13,14 @@ var DB *gorm.DB
 
 // InitDB 初始化数据库
 func InitDB() *gorm.DB {
-	db, err := gorm.Open(config.DBConfig.Connection, config.DBConfig.URL)
+	db, err := gorm.Open("sqlite3", "gorm.db")
 	if err != nil {
-		log.Fatal("Database connection failed. Database url: "+config.DBConfig.URL+" error: ", err)
+		log.Fatal("Database connection failed. error: ", err)
 	} else {
-		fmt.Print("\n\n------------------------------------------ GORM OPEN SUCCESS! -----------------------------------------------\n\n")
+		fmt.Print("\n------------ GORM OPEN SUCCESS! --------------\n")
 	}
 
-	db = db.Set("gorm:table_options", "ENGINE=InnoDB  DEFAULT CHARSET=utf8;").AutoMigrate()
-
-	db.LogMode(config.DBConfig.Debug)
+	//db.LogMode(config.DBConfig.Debug)
 	DB = db
 
 	return db

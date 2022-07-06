@@ -1,8 +1,8 @@
 package services
 
 import (
-	userModel "gin_weibo/app/models/user"
-	viewmodels "gin_weibo/app/view_models"
+	userModel "gloves/app/models/user"
+	viewmodels "gloves/app/view_models"
 	"sync"
 )
 

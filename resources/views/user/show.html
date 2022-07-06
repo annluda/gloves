@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-touch-fullscreen" content="YES">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>{{ .userData.Name }}</title>
     {{ template "shared/style" }}
   </head>
@@ -20,6 +23,14 @@
           </section>
 
           {{ if .currentUserData }}
+
+            <a class="text-center mt-2 mb-4" id="logout" href="#">
+              <form action='{{ Route "logout" }}' method="POST">
+                {{ .csrfField }}
+                <button class="btn btn-sm btn-danger" type="submit" name="button">退出</button>
+              </form>
+            </a>
+
             {{ if ne .currentUserData.ID .userData.ID }}
               <div class="text-center mt-2 mb-4">
                 {{ if .isFollowing }}
@@ -41,7 +52,7 @@
             {{ template "shared/stats" . }}
           </section>
           <hr>
-          <!-- 微博 -->
+          <!-- 内容 -->
           <section class="status">
             {{ if gt .statusesLength 0 }}
               <ul class="list-unstyled">
@@ -55,7 +66,7 @@
                       {{ .Content }}
                     </div>
                     {{ if eq .UserID $.currentUserData.ID }}
-                      <form action='{{ Route "statuses.destroy" .ID }}' method="POST" onsubmit="return confirm('您确定要删除本条微博吗？');">
+                      <form action='{{ Route "statuses.destroy" .ID }}' method="POST" onsubmit="return confirm('您确定要删除本条内容吗？');">
                         {{ $.csrfField }}
                         <input hidden name="back" value='{{ RelativeRoute "users.show" $.userData.ID }}'>
                         <button type="submit" class="btn btn-sm btn-danger">删除</button>

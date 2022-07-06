@@ -1,10 +1,9 @@
 package user
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"gin_weibo/app/models"
-	"gin_weibo/database"
+	"fmt"
+	"gloves/app/models"
+	"gloves/database"
 	"strconv"
 )
 
@@ -19,6 +18,12 @@ func Get(id int) (*User, error) {
 func GetByEmail(email string) (*User, error) {
 	user := &User{}
 	d := database.DB.Where("email = ?", email).First(&user)
+	return user, d.Error
+}
+
+func GetByName(name string) (*User, error) {
+	user := &User{}
+	d := database.DB.Where("name = ?", name).First(&user)
 	return user, d.Error
 }
 
@@ -66,12 +71,7 @@ func AllCount() (count int, err error) {
 
 // Gravatar 获取用户头像
 func (u *User) Gravatar() string {
-	if u.Avatar != "" {
-		return u.Avatar
-	}
-
-	hash := md5.Sum([]byte(u.Email))
-	return "http://www.gravatar.com/avatar/" + hex.EncodeToString(hash[:])
+	return fmt.Sprintf("/public/img/%d.png", u.ID)
 }
 
 // GetIDstring 获取字符串形式的 id

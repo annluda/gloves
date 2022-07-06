@@ -1,7 +1,7 @@
 package passwordreset
 
 import (
-	"gin_weibo/database"
+	"gloves/database"
 )
 
 // GetByEmail -

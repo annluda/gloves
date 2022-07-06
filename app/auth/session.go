@@ -2,10 +2,10 @@ package auth
 
 import (
 	"errors"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/config"
-	"gin_weibo/pkg/session"
-	"gin_weibo/pkg/utils"
+	userModel "gloves/app/models/user"
+	"gloves/config"
+	"gloves/pkg/session"
+	"gloves/pkg/utils"
 	"net/url"
 	"strconv"
 

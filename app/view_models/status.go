@@ -1,11 +1,11 @@
 package viewmodels
 
 import (
-	statusModel "gin_weibo/app/models/status"
-	"gin_weibo/pkg/time"
+	statusModel "gloves/app/models/status"
+	"gloves/pkg/time"
 )
 
-// StatusViewModel 微博
+// StatusViewModel 内容
 type StatusViewModel struct {
 	ID        int
 	Content   string
@@ -13,7 +13,7 @@ type StatusViewModel struct {
 	CreatedAt string
 }
 
-// NewStatusViewModelSerializer 微博数据展示
+// NewStatusViewModelSerializer 数据展示
 func NewStatusViewModelSerializer(s *statusModel.Status) *StatusViewModel {
 	return &StatusViewModel{
 		ID:        int(s.ID),

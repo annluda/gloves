@@ -2,13 +2,13 @@ package user
 
 import (
 	"github.com/lexkong/log"
-	"gin_weibo/pkg/utils"
-	"gin_weibo/database"
+	"gloves/database"
+	"gloves/pkg/utils"
 )
 
 // Create -
 func (u *User) Create() (err error) {
-  if err = u.Encrypt(); err != nil {
+	if err = u.Encrypt(); err != nil {
 		log.Warnf("用户创建失败: %v", err)
 		return err
 	}
@@ -49,10 +49,10 @@ func (u *User) Update(needEncryotPwd bool) (err error) {
 
 // Delete -
 func Delete(id int) (err error) {
-  user := &User{}
-  user.BaseModel.ID = uint(id)
+	user := &User{}
+	user.BaseModel.ID = uint(id)
 
-  // Unscoped: 永久删除而不是软删除 (由于该操作是管理员操作的，所以不使用软删除)
+	// Unscoped: 永久删除而不是软删除 (由于该操作是管理员操作的，所以不使用软删除)
 	if err = database.DB.Unscoped().Delete(&user).Error; err != nil {
 		log.Warnf("用户删除失败: %v", err)
 		return err

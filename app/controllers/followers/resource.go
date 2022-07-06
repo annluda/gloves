@@ -1,12 +1,12 @@
 package followers
 
 import (
-	"gin_weibo/app/controllers"
-	followerModel "gin_weibo/app/models/follower"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/app/policies"
-	"gin_weibo/pkg/flash"
-	"gin_weibo/routes/named"
+	"gloves/app/controllers"
+	followerModel "gloves/app/models/follower"
+	userModel "gloves/app/models/user"
+	"gloves/app/policies"
+	"gloves/pkg/flash"
+	"gloves/routes/named"
 
 	"github.com/gin-gonic/gin"
 )

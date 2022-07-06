@@ -1,8 +1,8 @@
 package user
 
 import (
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/app/requests"
+	userModel "gloves/app/models/user"
+	"gloves/app/requests"
 )
 
 type UserUpdateForm struct {

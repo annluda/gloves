@@ -3,18 +3,17 @@ package user
 import (
 	"github.com/gin-gonic/gin"
 
-	followerModel "gin_weibo/app/models/follower"
-	statusModel "gin_weibo/app/models/status"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/routes/named"
+	followerModel "gloves/app/models/follower"
+	statusModel "gloves/app/models/status"
+	userModel "gloves/app/models/user"
+	"gloves/routes/named"
 
-	"gin_weibo/app/controllers"
-	"gin_weibo/app/policies"
-	userRequest "gin_weibo/app/requests/user"
-	"gin_weibo/app/services"
-	viewmodels "gin_weibo/app/view_models"
-	"gin_weibo/pkg/flash"
-	"gin_weibo/pkg/pagination"
+	"gloves/app/controllers"
+	userRequest "gloves/app/requests/user"
+	"gloves/app/services"
+	viewmodels "gloves/app/view_models"
+	"gloves/pkg/flash"
+	"gloves/pkg/pagination"
 )
 
 // Index 用户列表
@@ -74,7 +73,7 @@ func Show(c *gin.Context, currentUser *userModel.User) {
 		return
 	}
 
-	// 获取用户的微博
+	// 获取用户的内容
 	statuses, _ := statusModel.GetUserStatus(int(user.ID), offset, limit)
 	statusesViewModels := make([]*viewmodels.StatusViewModel, 0)
 	for _, s := range statuses {
@@ -103,8 +102,8 @@ func Show(c *gin.Context, currentUser *userModel.User) {
 func Store(c *gin.Context) {
 	// 验证参数和创建用户
 	userCreateForm := &userRequest.UserCreateForm{
-		Name:                 c.PostForm("name"),
-		Email:                c.PostForm("email"),
+		Name: c.PostForm("name"),
+		//Email:                c.PostForm("email"),
 		Password:             c.PostForm("password"),
 		PasswordConfirmation: c.PostForm("password_confirmation"),
 	}
@@ -116,85 +115,5 @@ func Store(c *gin.Context) {
 		return
 	}
 
-	if err := sendConfirmEmail(user); err != nil {
-		flash.NewDangerFlash(c, "验证邮件发送失败: "+err.Error())
-	} else {
-		flash.NewSuccessFlash(c, "验证邮件已发送到你的注册邮箱上，请注意查收。")
-	}
-
 	controllers.RedirectRouter(c, "root")
-}
-
-// Edit 编辑用户页面
-func Edit(c *gin.Context, currentUser *userModel.User) {
-	id, err := controllers.GetIntParam(c, "id")
-	if err != nil {
-		controllers.Render404(c)
-		return
-	}
-
-	// 只能查看自己的编辑页面
-	if ok := policies.UserPolicyUpdate(c, currentUser, id); !ok {
-		return
-	}
-
-	controllers.Render(c, "user/edit.html", gin.H{
-		"userData": viewmodels.NewUserViewModelSerializer(currentUser),
-	})
-}
-
-// Update 编辑用户
-func Update(c *gin.Context, currentUser *userModel.User) {
-	id, err := controllers.GetIntParam(c, "id")
-	if err != nil {
-		controllers.Render404(c)
-		return
-	}
-
-	// 只能更新自己
-	if ok := policies.UserPolicyUpdate(c, currentUser, id); !ok {
-		return
-	}
-
-	// 验证参数和更新用户
-	userUpdateForm := &userRequest.UserUpdateForm{
-		Name:                 c.PostForm("name"),
-		Password:             c.PostForm("password"),
-		PasswordConfirmation: c.PostForm("password_confirmation"),
-	}
-	errors := userUpdateForm.ValidateAndSave(currentUser)
-
-	if len(errors) != 0 {
-		flash.SaveValidateMessage(c, errors)
-		controllers.RedirectRouter(c, "users.edit", currentUser.ID)
-		return
-	}
-
-	flash.NewSuccessFlash(c, "个人资料更新成功！")
-	controllers.RedirectRouter(c, "users.show", currentUser.ID)
-}
-
-// Destroy 删除用户
-func Destroy(c *gin.Context, currentUser *userModel.User) {
-	page := c.DefaultQuery("page", "1")
-
-	id, err := controllers.GetIntParam(c, "id")
-	if err != nil {
-		controllers.Render404(c)
-		return
-	}
-
-	// 是否有删除权限
-	if ok := policies.UserPolicyDestroy(c, currentUser, id); !ok {
-		return
-	}
-
-	// 删除用户
-	if err = userModel.Delete(id); err != nil {
-		flash.NewDangerFlash(c, "删除失败: "+err.Error())
-	} else {
-		flash.NewSuccessFlash(c, "成功删除用户！")
-	}
-
-	controllers.Redirect(c, named.G("users.index")+"?page="+page, false)
 }

@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"gin_weibo/config"
+	"gloves/config"
 )
 
 var (

@@ -1,8 +1,7 @@
 package controllers
 
 import (
-	"gin_weibo/config"
-	"gin_weibo/routes/named"
+	"gloves/routes/named"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +10,9 @@ import (
 // Redirect : 路由重定向 use path
 func Redirect(c *gin.Context, redirectPath string, withRoot bool) {
 	path := redirectPath
-	if withRoot {
-		path = config.AppConfig.URL + redirectPath
-	}
+	//if withRoot {
+	//	path = config.AppConfig.URL + redirectPath
+	//}
 
 	redirect(c, path)
 }

@@ -2,16 +2,16 @@ package controllers
 
 import (
 	"fmt"
-	"gin_weibo/app/helpers"
-	"gin_weibo/config"
-	"gin_weibo/pkg/flash"
-	"gin_weibo/routes/named"
+	"gloves/app/helpers"
+	"gloves/config"
+	"gloves/pkg/flash"
+	"gloves/routes/named"
 	"html/template"
 	"net/http"
 	"strconv"
 
-	"gin_weibo/app/auth"
-	viewmodels "gin_weibo/app/view_models"
+	"gloves/app/auth"
+	viewmodels "gloves/app/view_models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -81,12 +81,12 @@ func Render403(c *gin.Context, msg string) {
 
 // Render404 -
 func Render404(c *gin.Context) {
-	RenderError(c, http.StatusNotFound, "很抱歉！您浏览的页面不存在。")
+	RenderError(c, http.StatusNotFound, "浏览的页面不存在。")
 }
 
 // RenderUnauthorized -
 func RenderUnauthorized(c *gin.Context) {
-	Render403(c, "很抱歉，您没有权限访问该页面")
+	Render403(c, "没有权限访问该页面")
 }
 
 // private ---------------------

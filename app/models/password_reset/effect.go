@@ -1,9 +1,9 @@
 package passwordreset
 
 import (
-	"gin_weibo/database"
 	"github.com/lexkong/log"
-	"gin_weibo/pkg/utils"
+	"gloves/database"
+	"gloves/pkg/utils"
 )
 
 // Create -

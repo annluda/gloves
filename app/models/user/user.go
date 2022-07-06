@@ -1,16 +1,15 @@
 package user
 
 import (
-  "time"
-  "gin_weibo/app/models"
+	"gloves/app/models"
+	"time"
 )
-
 
 // User 用户模型
 type User struct {
 	models.BaseModel
 	Name     string `gorm:"column:name;type:varchar(255);not null"`
-	Email    string `gorm:"column:email;type:varchar(255);unique;not null"`
+	Email    string `gorm:"column:email;type:varchar(255);not null"`
 	Avatar   string `gorm:"column:avatar;type:varchar(255);not null"`
 	Password string `gorm:"column:password;type:varchar(255);not null"`
 	// 是否为管理员

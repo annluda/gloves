@@ -3,8 +3,7 @@ package named
 
 import (
 	"fmt"
-	"gin_weibo/config"
-	"gin_weibo/pkg/utils"
+	"gloves/pkg/utils"
 	"os"
 	"strconv"
 	"strings"
@@ -41,7 +40,8 @@ func Name(g gin.IRouter, name string, method string, path string) {
 // Name(g, "users.create", "GET", "/users/create/:id")
 //     -> G("users.create", 1) 得到 "/users/create/1"
 func G(name string, values ...interface{}) string {
-	return config.AppConfig.URL + getRoute(name, values...)
+	return getRoute(name, values...)
+	//return config.AppConfig.URL + getRoute(name, values...)
 }
 
 // GR : 根据 name 获取路由 path (相对于网站根路径)

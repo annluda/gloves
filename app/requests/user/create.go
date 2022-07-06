@@ -1,8 +1,8 @@
 package user
 
 import (
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/app/requests"
+	userModel "gloves/app/models/user"
+	"gloves/app/requests"
 )
 
 // 以后可以改为 tag 来调用验证器函数
@@ -30,12 +30,12 @@ func (u *UserCreateForm) Validate() (errors []string) {
 				requests.RequiredValidator(u.Name),
 				requests.MaxLengthValidator(u.Name, 50),
 			},
-			"email": {
-				requests.RequiredValidator(u.Email),
-				requests.MaxLengthValidator(u.Email, 255),
-				requests.EmailValidator(u.Email),
-				u.emailUniqueValidator(),
-			},
+			//"email": {
+			//	requests.RequiredValidator(u.Email),
+			//	requests.MaxLengthValidator(u.Email, 255),
+			//	requests.EmailValidator(u.Email),
+			//	u.emailUniqueValidator(),
+			//},
 			"password": {
 				requests.RequiredValidator(u.Password),
 				requests.MixLengthValidator(u.Password, 6),
@@ -74,9 +74,11 @@ func (u *UserCreateForm) ValidateAndSave() (user *userModel.User, errors []strin
 
 	// 创建用户
 	user = &userModel.User{
-		Name:     u.Name,
-		Email:    u.Email,
+		Name: u.Name,
+		//Email:    u.Email,
 		Password: u.Password,
+		// 默认激活
+		Activated: 1,
 	}
 
 	if err := user.Create(); err != nil {

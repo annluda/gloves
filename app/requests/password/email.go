@@ -1,9 +1,9 @@
 package password
 
 import (
-	passwordResetModel "gin_weibo/app/models/password_reset"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/app/requests"
+	passwordResetModel "gloves/app/models/password_reset"
+	userModel "gloves/app/models/user"
+	"gloves/app/requests"
 )
 
 // PasswordEmailForm -

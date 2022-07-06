@@ -2,7 +2,7 @@ package follower
 
 import (
 	"fmt"
-	"gin_weibo/database"
+	"gloves/database"
 	"strconv"
 )
 

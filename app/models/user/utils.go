@@ -1,7 +1,7 @@
 package user
 
 import (
-	"gin_weibo/pkg/auth"
+	"gloves/pkg/auth"
 )
 
 // Encrypt 对密码进行加密

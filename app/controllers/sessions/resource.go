@@ -1,10 +1,10 @@
 package sessions
 
 import (
-	"gin_weibo/app/auth"
-	"gin_weibo/app/controllers"
-	userRequest "gin_weibo/app/requests/user"
-	"gin_weibo/pkg/flash"
+	"gloves/app/auth"
+	"gloves/app/controllers"
+	userRequest "gloves/app/requests/user"
+	"gloves/pkg/flash"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +12,8 @@ import (
 // Create 登录界面
 func Create(c *gin.Context) {
 	controllers.Render(c, "sessions/create.html", gin.H{
-		"back": c.Query("back"),
+		//"back": c.Query("back"),
+		"back": "/",
 	})
 }
 
@@ -20,7 +21,7 @@ func Create(c *gin.Context) {
 func Store(c *gin.Context) {
 	// 验证参数并且获取用户
 	userLoginForm := &userRequest.UserLoginForm{
-		Email:    c.PostForm("email"),
+		Name:     c.PostForm("name"),
 		Password: c.PostForm("password"),
 	}
 	user, errors := userLoginForm.ValidateAndGetUser(c)
@@ -32,11 +33,11 @@ func Store(c *gin.Context) {
 	}
 
 	// 用户是否激活
-	if !user.IsActivated() {
-		flash.NewWarningFlash(c, "你的账号未激活，请检查邮箱中的注册邮件进行激活。")
-		controllers.RedirectRouter(c, "root")
-		return
-	}
+	//if !user.IsActivated() {
+	//	flash.NewWarningFlash(c, "你的账号未激活，请检查邮箱中的注册邮件进行激活。")
+	//	controllers.RedirectRouter(c, "root")
+	//	return
+	//}
 
 	auth.Login(c, user)
 	flash.NewSuccessFlash(c, "欢迎回来！")
@@ -54,6 +55,6 @@ func Store(c *gin.Context) {
 // Destroy 登出 (销毁会话)
 func Destroy(c *gin.Context) {
 	auth.Logout(c)
-	flash.NewSuccessFlash(c, "您已成功退出！")
+	flash.NewSuccessFlash(c, "已成功退出！")
 	controllers.RedirectToLoginPage(c)
 }

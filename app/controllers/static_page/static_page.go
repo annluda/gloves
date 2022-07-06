@@ -1,20 +1,21 @@
 package staticpage
 
 import (
-	"gin_weibo/app/auth"
-	"gin_weibo/app/controllers"
-	followerModel "gin_weibo/app/models/follower"
-	statusModel "gin_weibo/app/models/status"
-	userModel "gin_weibo/app/models/user"
-	viewmodels "gin_weibo/app/view_models"
-	"gin_weibo/pkg/pagination"
-	"gin_weibo/routes/named"
+	"gloves/app/auth"
+	"gloves/app/controllers"
+	followerModel "gloves/app/models/follower"
+	statusModel "gloves/app/models/status"
+	userModel "gloves/app/models/user"
+	viewmodels "gloves/app/view_models"
+	"gloves/pkg/pagination"
+	"gloves/routes/named"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Home 主页
 func Home(c *gin.Context) {
+
 	currentUser, err := auth.GetCurrentUserFromContext(c)
 	if err != nil {
 		controllers.Render(c, "static_page/home.html", gin.H{})
@@ -39,7 +40,7 @@ func Home(c *gin.Context) {
 		return
 	}
 
-	// 获取用户的微博
+	// 获取用户的内容
 	statuses, _ := statusModel.GetByUsersStatuses(followingIDList, offset, limit)
 	statusesViewModels := make([]interface{}, 0)
 	for _, s := range statuses {

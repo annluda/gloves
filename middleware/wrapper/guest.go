@@ -2,9 +2,9 @@
 package wrapper
 
 import (
-	"gin_weibo/app/auth"
-	"gin_weibo/app/controllers"
-	"gin_weibo/pkg/flash"
+	"gloves/app/auth"
+	"gloves/app/controllers"
+	"gloves/pkg/flash"
 
 	"github.com/gin-gonic/gin"
 )

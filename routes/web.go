@@ -3,14 +3,13 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 
-	"gin_weibo/app/controllers/followers"
-	"gin_weibo/app/controllers/password"
-	"gin_weibo/app/controllers/sessions"
-	staticpage "gin_weibo/app/controllers/static_page"
-	"gin_weibo/app/controllers/status"
-	"gin_weibo/app/controllers/user"
-	"gin_weibo/middleware/wrapper"
-	"gin_weibo/routes/named"
+	"gloves/app/controllers/followers"
+	"gloves/app/controllers/sessions"
+	staticpage "gloves/app/controllers/static_page"
+	"gloves/app/controllers/status"
+	"gloves/app/controllers/user"
+	"gloves/middleware/wrapper"
+	"gloves/routes/named"
 )
 
 func registerWeb(g *gin.Engine) {
@@ -33,10 +32,10 @@ func registerWeb(g *gin.Engine) {
 		g.GET("/signup", wrapper.Guest(user.Create))
 		named.Name(g, "signup", "GET", "/signup")
 
-		g.GET("/signup/confirm/:token", wrapper.Guest(user.ConfirmEmail))
+		//g.GET("/signup/confirm/:token", wrapper.Guest(user.ConfirmEmail))
 		// 带参路由绑定，可通过 named.G("signup.confirm", token) 或 named.GR("signup.confirm", token) 获取 path
 		// 模板文件中可通过 {{ Route "signup.confirm" .token }} 或 {{ RelativeRoute "signup.confirm" .token }} 获取 path
-		named.Name(g, "signup.confirm", "GET", "/signup/confirm/:token") //
+		//named.Name(g, "signup.confirm", "GET", "/signup/confirm/:token") //
 
 		userRouter := g.Group("/users")
 		{
@@ -55,15 +54,15 @@ func registerWeb(g *gin.Engine) {
 			named.Name(userRouter, "users.show", "GET", "/show/:id")
 
 			// 编辑用户页面
-			userRouter.GET("/edit/:id", wrapper.Auth(user.Edit))
-			named.Name(userRouter, "users.edit", "GET", "/edit/:id")
+			//userRouter.GET("/edit/:id", wrapper.Auth(user.Edit))
+			//named.Name(userRouter, "users.edit", "GET", "/edit/:id")
 			// 修改用户
-			userRouter.POST("/update/:id", wrapper.Auth(user.Update))
-			named.Name(userRouter, "users.update", "POST", "/update/:id")
+			//userRouter.POST("/update/:id", wrapper.Auth(user.Update))
+			//named.Name(userRouter, "users.update", "POST", "/update/:id")
 
 			// 删除用户
-			userRouter.POST("/destroy/:id", wrapper.Auth(user.Destroy))
-			named.Name(userRouter, "users.destroy", "POST", "/destroy/:id")
+			//userRouter.POST("/destroy/:id", wrapper.Auth(user.Destroy))
+			//named.Name(userRouter, "users.destroy", "POST", "/destroy/:id")
 
 			// 用户关注者列表
 			userRouter.GET("/followings/:id", wrapper.Auth(user.Followings))
@@ -94,30 +93,13 @@ func registerWeb(g *gin.Engine) {
 		named.Name(g, "logout", "POST", "/logout")
 	}
 
-	// ------------------------------ password ------------------------------
-	passwordRouter := g.Group("/password")
-	{
-		// 显示重置密码的邮箱发送页面
-		passwordRouter.GET("/reset", wrapper.Guest(password.ShowLinkRequestsForm))
-		named.Name(passwordRouter, "password.request", "GET", "/reset")
-		// 邮箱发送重设链接
-		passwordRouter.POST("/email", wrapper.Guest(password.SendResetLinkEmail))
-		named.Name(passwordRouter, "password.email", "POST", "/email")
-		// 密码更新页面
-		passwordRouter.GET("/reset/:token", wrapper.Guest(password.ShowResetForm))
-		named.Name(passwordRouter, "password.reset", "GET", "/reset/:token")
-		// 执行密码更新操作
-		passwordRouter.POST("/reset", wrapper.Guest(password.Reset))
-		named.Name(passwordRouter, "password.update", "POST", "/reset")
-	}
-
 	// ------------------------------ statuses ------------------------------
 	statusRouter := g.Group("/statuses")
 	{
-		// 处理创建微博的请求
+		// 处理创建内容的请求
 		statusRouter.POST("", wrapper.Auth(status.Store))
 		named.Name(statusRouter, "statuses.store", "POST", "")
-		// 处理删除微博的请求
+		// 处理删除内容的请求
 		statusRouter.POST("/destroy/:id", wrapper.Auth(status.Destroy))
 		named.Name(statusRouter, "statuses.destroy", "POST", "/destroy/:id")
 	}

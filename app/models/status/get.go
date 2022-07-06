@@ -2,8 +2,8 @@ package status
 
 import (
 	"fmt"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/database"
+	userModel "gloves/app/models/user"
+	"gloves/database"
 	"strconv"
 )
 
@@ -14,7 +14,7 @@ func Get(id int) (*Status, error) {
 	return s, d.Error
 }
 
-// GetByUsersStatusesCount 获取指定用户们的微博数量
+// GetByUsersStatusesCount 获取指定用户们的内容数量
 func GetByUsersStatusesCount(ids []uint) (int, error) {
 	sqlStr := fmt.Sprintf("select count(*) from %s where deleted_at is null and user_id in (", tableName)
 	l := len(ids) - 1
@@ -31,7 +31,7 @@ func GetByUsersStatusesCount(ids []uint) (int, error) {
 	return count, d.Error
 }
 
-// GetByUsersStatuses 获取指定用户们的微博
+// GetByUsersStatuses 获取指定用户们的内容
 func GetByUsersStatuses(ids []uint, offset, limit int) ([]*Status, error) {
 	status := make([]*Status, 0)
 
@@ -49,7 +49,7 @@ func GetByUsersStatuses(ids []uint, offset, limit int) ([]*Status, error) {
 	return status, d.Error
 }
 
-// GetUser 通过 status_id 获取该微博的所有者
+// GetUser 通过 status_id 获取该内容的所有者
 func GetUser(statusID int) (*userModel.User, error) {
 	s, err := Get(statusID)
 	if err != nil {
@@ -64,7 +64,7 @@ func GetUser(statusID int) (*userModel.User, error) {
 	return u, nil
 }
 
-// GetUserAllStatus 获取该用户的所有微博
+// GetUserAllStatus 获取该用户的所有内容
 func GetUserAllStatus(userID int) ([]*Status, error) {
 	status := make([]*Status, 0)
 
@@ -77,7 +77,7 @@ func GetUserAllStatus(userID int) ([]*Status, error) {
 	return status, nil
 }
 
-// GetUserStatus 获取该用户的微博 (分页)
+// GetUserStatus 获取该用户的内容 (分页)
 func GetUserStatus(userID, offset, limit int) ([]*Status, error) {
 	status := make([]*Status, 0)
 
@@ -91,7 +91,7 @@ func GetUserStatus(userID, offset, limit int) ([]*Status, error) {
 	return status, nil
 }
 
-// GetUserAllStatusCount 获取该用户的所有微博 的 count
+// GetUserAllStatusCount 获取该用户的所有内容 的 count
 func GetUserAllStatusCount(userID int) (count int, err error) {
 	err = database.DB.Model(&Status{}).Where("user_id = ?", userID).Count(&count).Error
 	return

@@ -3,7 +3,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Gin weibo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="gloves">
+    <title>gloves</title>
     {{ template "shared/style" }}
   </head>
   <body>
@@ -15,18 +19,18 @@
 
       {{ if .currentUserData }}
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-10">
             <section class="status_form">
               <form action='{{ Route "statuses.store" }}' method="POST">
                 {{ .csrfField }}
                 <input hidden name="back" value='{{ RelativeRoute "root" }}'>
-                <textarea class="form-control" rows="3" placeholder="聊聊新鲜事儿..." name="content">{{ .oldValue.content }}</textarea>
+                <textarea class="form-control" rows="3" placeholder="今天的心情..." name="content">{{ .oldValue.content }}</textarea>
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary mt-3">发布</button>
                 </div>
               </form>
             </section>
-            <h4>微博列表</h4>
+            <h4>列表</h4>
             <hr>
             {{ if gt .statusesLength 0 }}
               <ul class="list-unstyled">
@@ -40,7 +44,7 @@
                       {{ .status.Content }}
                     </div>
                     {{ if eq .status.UserID $.currentUserData.ID }}
-                      <form action='{{ Route "statuses.destroy" .status.ID }}' method="POST" onsubmit="return confirm('您确定要删除本条微博吗？');">
+                      <form action='{{ Route "statuses.destroy" .status.ID }}' method="POST" onsubmit="return confirm('您确定要删除本条内容吗？');">
                         {{ $.csrfField }}
                         <input hidden name="back" value='{{ RelativeRoute "root" }}'>
                         <button type="submit" class="btn btn-sm btn-danger">删除</button>
@@ -56,29 +60,29 @@
               <p>没有数据！</p>
            {{ end }}
           </div>
-          <aside class="col-md-4">
-            <section class="user_info">
-              <a href='{{ Route "users.show" .currentUserData.ID }}'>
-                <img src="{{ .currentUserData.Avatar }}?s=140" alt="{{ .currentUserData.Name }}" class="gravatar"/>
-              </a>
-              <h1>{{ .currentUserData.Name }}</h1>
-            </section>
-            <section class="stats mt-2">
-              {{ template "shared/stats" . }}
-            </section>
-          </aside>
+<!--          <aside class="col-md-4">-->
+<!--            <section class="user_info">-->
+<!--              <a href='{{ Route "users.show" .currentUserData.ID }}'>-->
+<!--                <img src="{{ .currentUserData.Avatar }}?s=140" alt="{{ .currentUserData.Name }}" class="gravatar"/>-->
+<!--              </a>-->
+<!--              <h1>{{ .currentUserData.Name }}</h1>-->
+<!--            </section>-->
+<!--            <section class="stats mt-2">-->
+<!--              {{ template "shared/stats" . }}-->
+<!--            </section>-->
+<!--          </aside>-->
         </div>
       {{ else }}
         <div class="jumbotron">
-          <h1>Hello Gin</h1>
+          <h1>Hello</h1>
           <p class="lead">
-            你现在所看到的是 Gin weibo 主页。
+            你现在所看到的是主页。
           </p>
           <p>
             一切，将从这里开始。
           </p>
           <p>
-            <a class="btn btn-lg btn-success" href='{{ Route "signup" }}' role="button">现在注册</a>
+            <a class="btn btn-lg btn-success" href='{{ Route "login.create" }}' role="button">现在登录</a>
           </p>
         </div>
       {{ end }}

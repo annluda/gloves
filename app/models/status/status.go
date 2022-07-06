@@ -1,12 +1,12 @@
 package status
 
 import (
-	"gin_weibo/app/models"
+	"gloves/app/models"
 )
 
 const tableName = "statuses"
 
-// Status 微博
+// Status 内容
 type Status struct {
 	models.BaseModel
 	Content string `gorm:"column:context;type:text;not null"`

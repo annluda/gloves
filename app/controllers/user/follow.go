@@ -1,12 +1,12 @@
 package user
 
 import (
-	"gin_weibo/app/controllers"
-	followerModel "gin_weibo/app/models/follower"
-	userModel "gin_weibo/app/models/user"
-	viewmodels "gin_weibo/app/view_models"
-	"gin_weibo/pkg/pagination"
-	"gin_weibo/routes/named"
+	"gloves/app/controllers"
+	followerModel "gloves/app/models/follower"
+	userModel "gloves/app/models/user"
+	viewmodels "gloves/app/view_models"
+	"gloves/pkg/pagination"
+	"gloves/routes/named"
 
 	"github.com/gin-gonic/gin"
 )

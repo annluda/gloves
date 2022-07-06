@@ -3,7 +3,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>所有用户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-touch-fullscreen" content="YES">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>成员</title>
     {{ template "shared/style" }}
   </head>
   <body>
@@ -14,7 +17,7 @@
       {{ template "shared/messages" . }}
 
       <div class="offset-md-2 col-md-8">
-        <h2 class="mb-4 text-center">所有用户</h2>
+        <h2 class="mb-4 text-center">成员</h2>
         <div class="list-group list-group-flush">
 
           {{ range .users }}

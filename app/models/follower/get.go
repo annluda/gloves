@@ -2,8 +2,8 @@ package follower
 
 import (
 	"fmt"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/database"
+	userModel "gloves/app/models/user"
+	"gloves/database"
 )
 
 // Followers 获取粉丝列表

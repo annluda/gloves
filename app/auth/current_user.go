@@ -2,8 +2,8 @@ package auth
 
 import (
 	"errors"
-	userModel "gin_weibo/app/models/user"
-	"gin_weibo/config"
+	userModel "gloves/app/models/user"
+	"gloves/config"
 
 	"github.com/gin-gonic/gin"
 )

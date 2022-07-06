@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"gin_weibo/app/controllers"
-	"gin_weibo/config"
-	"gin_weibo/pkg/utils"
+	"gloves/app/controllers"
+	"gloves/config"
+	"gloves/pkg/utils"
 )
 
 // Csrf : csrf middleware

@@ -39,8 +39,8 @@ type appConfig struct {
 
 func newAppConfig() *appConfig {
 	// 默认配置
-	viper.SetDefault("APP.NAME", "gin_weibo")
-	viper.SetDefault("APP.RUNMODE", "release")
+	viper.SetDefault("APP.NAME", "gloves")
+	viper.SetDefault("APP.RUNMODE", "debug")
 	viper.SetDefault("APP.ADDR", ":8080")
 	viper.SetDefault("APP.URL", "")
 	viper.SetDefault("APP.KEY", "base64:O+VQ74YEigLPDzLKnh2HW/yjCdU2ON9v7xuKBgSOEAo=")

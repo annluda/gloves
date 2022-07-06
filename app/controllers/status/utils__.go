@@ -1,8 +1,8 @@
 package status
 
 import (
-	"gin_weibo/app/controllers"
-	userModel "gin_weibo/app/models/user"
+	"gloves/app/controllers"
+	userModel "gloves/app/models/user"
 
 	"github.com/gin-gonic/gin"
 )

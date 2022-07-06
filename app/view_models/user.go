@@ -1,7 +1,7 @@
 package viewmodels
 
 import (
-	userModel "gin_weibo/app/models/user"
+	userModel "gloves/app/models/user"
 )
 
 // UserViewModel 用户
