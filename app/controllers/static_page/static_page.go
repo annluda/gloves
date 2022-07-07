@@ -3,9 +3,7 @@ package staticpage
 import (
 	"gloves/app/auth"
 	"gloves/app/controllers"
-	followerModel "gloves/app/models/follower"
-	statusModel "gloves/app/models/status"
-	userModel "gloves/app/models/user"
+	followerModel "gloves/app/models"
 	viewmodels "gloves/app/view_models"
 	"gloves/pkg/pagination"
 	"gloves/routes/named"
@@ -24,7 +22,7 @@ func Home(c *gin.Context) {
 
 	// 获取用户所有关注的人 (包括自己)
 	following, _ := followerModel.Followings(int(currentUser.ID), 0, 0)
-	userIDmap := make(map[uint]*userModel.User, 0)
+	userIDmap := make(map[uint]*followerModel.User, 0)
 	userIDmap[currentUser.ID] = currentUser
 	followingIDList := make([]uint, 0)
 	followingIDList = append(followingIDList, currentUser.ID)
@@ -33,7 +31,7 @@ func Home(c *gin.Context) {
 		userIDmap[v.ID] = v
 	}
 	// 获取分页参数
-	statusesAllLength, _ := statusModel.GetByUsersStatusesCount(followingIDList)
+	statusesAllLength, _ := followerModel.GetByUsersStatusesCount(followingIDList)
 	offset, limit, currentPage, pageTotalCount := controllers.GetPageQuery(c, 10, statusesAllLength)
 	if currentPage > pageTotalCount {
 		controllers.Redirect(c, named.G("root")+"?page=1", false)
@@ -41,7 +39,7 @@ func Home(c *gin.Context) {
 	}
 
 	// 获取用户的内容
-	statuses, _ := statusModel.GetByUsersStatuses(followingIDList, offset, limit)
+	statuses, _ := followerModel.GetByUsersStatuses(followingIDList, offset, limit)
 	statusesViewModels := make([]interface{}, 0)
 	for _, s := range statuses {
 		statusesViewModels = append(statusesViewModels, gin.H{

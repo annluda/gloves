@@ -1,10 +1,9 @@
 package status
 
 import (
-	"gloves/app/controllers"
-	userModel "gloves/app/models/user"
-
 	"github.com/gin-gonic/gin"
+	"gloves/app/controllers"
+	userModel "gloves/app/models"
 )
 
 func backTo(c *gin.Context, currentUser *userModel.User) {

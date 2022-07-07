@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"gloves/database"
+	"time"
+)
 
 const (
 	// TrueTinyint true
@@ -17,4 +20,12 @@ type BaseModel struct {
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 	// 有 DeletedAt(类型需要是 *time.Time) 即支持 gorm 软删除
 	DeletedAt *time.Time `gorm:"column:deleted_at" sql:"index"`
+}
+
+func Migrate() {
+	database.DB.AutoMigrate(
+		&User{},
+		&Status{},
+		&Follower{},
+	)
 }

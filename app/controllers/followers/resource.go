@@ -2,8 +2,7 @@ package followers
 
 import (
 	"gloves/app/controllers"
-	followerModel "gloves/app/models/follower"
-	userModel "gloves/app/models/user"
+	followerModel "gloves/app/models"
 	"gloves/app/policies"
 	"gloves/pkg/flash"
 	"gloves/routes/named"
@@ -12,7 +11,7 @@ import (
 )
 
 // Store 关注用户
-func Store(c *gin.Context, currentUser *userModel.User) {
+func Store(c *gin.Context, currentUser *followerModel.User) {
 	id, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)
@@ -38,7 +37,7 @@ func Store(c *gin.Context, currentUser *userModel.User) {
 }
 
 // Destroy 取消关注用户
-func Destroy(c *gin.Context, currentUser *userModel.User) {
+func Destroy(c *gin.Context, currentUser *followerModel.User) {
 	id, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)

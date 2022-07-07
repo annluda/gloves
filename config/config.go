@@ -39,13 +39,11 @@ func InitConfig() {
 	//  panic(fmt.Sprintf("读取配置文件失败，请检查: %v", err))
 	//}
 
-	// 初始化日志
-	initLog()
 	// 初始化 app 配置
 	AppConfig = newAppConfig()
 	// 初始化数据库配置
-	DBConfig = newDBConfig()
+	//DBConfig = newDBConfig()
 	// 初始化邮件配置
-	MailConfig = newMailConfig()
+	//MailConfig = newMailConfig()
 
 }

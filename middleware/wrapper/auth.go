@@ -2,11 +2,10 @@
 package wrapper
 
 import (
+	"github.com/gin-gonic/gin"
 	"gloves/app/auth"
 	"gloves/app/controllers"
-	userModel "gloves/app/models/user"
-
-	"github.com/gin-gonic/gin"
+	userModel "gloves/app/models"
 )
 
 type (

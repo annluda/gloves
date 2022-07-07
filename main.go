@@ -2,20 +2,16 @@ package main
 
 import (
 	"fmt"
+	"gloves/app/models"
+	"gloves/database"
+	"gloves/pkg/logger"
 	"html/template"
 	"net/http"
-
-	"github.com/lexkong/log"
 
 	"github.com/gin-gonic/gin"
 
 	"gloves/app/helpers"
-	followerModel "gloves/app/models/follower"
-	passwordResetModel "gloves/app/models/password_reset"
-	statusModel "gloves/app/models/status"
-	userModel "gloves/app/models/user"
 	"gloves/config"
-	"gloves/database"
 	"gloves/routes"
 	"gloves/routes/named"
 )
@@ -24,37 +20,30 @@ func main() {
 
 	// 初始化配置
 	config.InitConfig()
+	logger.Init()
+	database.InitDB()
+	models.Migrate()
 
-	// gin config
-	g := gin.New()
-	setupGin(g)
-
-	// db config
-	db := database.InitDB()
-	// db migrate
-	db.AutoMigrate(
-		&userModel.User{},
-		&passwordResetModel.PasswordReset{},
-		&statusModel.Status{},
-		&followerModel.Follower{},
-	)
-	defer db.Close()
+	// gin
+	g := setupGin()
 
 	// router register
 	routes.Register(g)
-	printRoute()
+	//printRoute()
 
 	// 启动
-	fmt.Println("---server on----")
+	fmt.Println("gloves started.")
 	if err := http.ListenAndServe(":1007", g); err != nil {
-		log.Fatal("http server 启动失败", err)
+		logger.Fatalf("http server 启动失败", err)
 	}
 }
 
 // 配置 gin
-func setupGin(g *gin.Engine) {
+func setupGin() *gin.Engine {
 	// 启动模式配置
-	gin.SetMode(config.AppConfig.RunMode)
+	gin.SetMode(gin.ReleaseMode)
+
+	g := gin.New()
 
 	// 项目静态文件配置
 	g.Static("/"+config.AppConfig.PublicPath, config.AppConfig.PublicPath)
@@ -74,6 +63,8 @@ func setupGin(g *gin.Engine) {
 	})
 	// 模板存储路径
 	g.LoadHTMLGlob(config.AppConfig.ViewsPath + "/**/*")
+
+	return g
 }
 
 // 打印命名路由

@@ -1,9 +1,8 @@
 package policies
 
 import (
-	userModel "gloves/app/models/user"
-
 	"github.com/gin-gonic/gin"
+	userModel "gloves/app/models"
 )
 
 // UserPolicyUpdate : 是否有更新目标 user 的权限

@@ -1,7 +1,7 @@
 package viewmodels
 
 import (
-	statusModel "gloves/app/models/status"
+	statusModel "gloves/app/models"
 	"gloves/pkg/time"
 )
 

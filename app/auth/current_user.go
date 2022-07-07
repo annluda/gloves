@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	userModel "gloves/app/models/user"
+	"gloves/app/models"
 	"gloves/config"
 
 	"github.com/gin-gonic/gin"
@@ -19,14 +19,14 @@ func SaveCurrentUserToContext(c *gin.Context) {
 }
 
 // GetCurrentUserFromContext : 从 context 中获取用户模型
-func GetCurrentUserFromContext(c *gin.Context) (*userModel.User, error) {
+func GetCurrentUserFromContext(c *gin.Context) (*models.User, error) {
 	err := errors.New("没有获取到用户数据")
 	userDataFromContext := c.Keys[config.AppConfig.ContextCurrentUserDataKey]
 	if userDataFromContext == nil {
 		return nil, err
 	}
 
-	user, ok := userDataFromContext.(*userModel.User)
+	user, ok := userDataFromContext.(*models.User)
 	if !ok {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func GetCurrentUserFromContext(c *gin.Context) (*userModel.User, error) {
 }
 
 // GetUserFromContextOrDataBase : 从 context 或者从数据库中获取用户模型
-func GetUserFromContextOrDataBase(c *gin.Context, id int) (*userModel.User, error) {
+func GetUserFromContextOrDataBase(c *gin.Context, id int) (*models.User, error) {
 	// 当前用户存在并且就是想要获取的那个用户
 	currentUser, err := GetCurrentUserFromContext(c)
 	if currentUser != nil && err == nil {
@@ -45,7 +45,7 @@ func GetUserFromContextOrDataBase(c *gin.Context, id int) (*userModel.User, erro
 	}
 
 	// 获取的是其他指定 id 的用户
-	otherUser, err := userModel.Get(id)
+	otherUser, err := models.UserGet(id)
 	if err != nil {
 		return nil, err
 	}

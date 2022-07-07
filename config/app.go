@@ -40,18 +40,16 @@ type appConfig struct {
 func newAppConfig() *appConfig {
 	// 默认配置
 	viper.SetDefault("APP.NAME", "gloves")
-	viper.SetDefault("APP.RUNMODE", "debug")
 	viper.SetDefault("APP.ADDR", ":8080")
 	viper.SetDefault("APP.URL", "")
 	viper.SetDefault("APP.KEY", "base64:O+VQ74YEigLPDzLKnh2HW/yjCdU2ON9v7xuKBgSOEAo=")
 	viper.SetDefault("APP.ENABLE_CSRF", true)
 
 	return &appConfig{
-		Name:    viper.GetString("APP.NAME"),
-		RunMode: viper.GetString("APP.RUNMODE"),
-		Addr:    viper.GetString("APP.ADDR"),
-		URL:     viper.GetString("APP.URL"),
-		Key:     viper.GetString("APP.KEY"),
+		Name: viper.GetString("APP.NAME"),
+		Addr: viper.GetString("APP.ADDR"),
+		URL:  viper.GetString("APP.URL"),
+		Key:  viper.GetString("APP.KEY"),
 
 		PublicPath:    "public",
 		ResourcesPath: "resources",

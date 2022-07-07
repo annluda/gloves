@@ -2,8 +2,7 @@ package user
 
 import (
 	"gloves/app/controllers"
-	followerModel "gloves/app/models/follower"
-	userModel "gloves/app/models/user"
+	followerModel "gloves/app/models"
 	viewmodels "gloves/app/view_models"
 	"gloves/pkg/pagination"
 	"gloves/routes/named"
@@ -12,7 +11,7 @@ import (
 )
 
 // Followings 用户关注者列表
-func Followings(c *gin.Context, currentUser *userModel.User) {
+func Followings(c *gin.Context, currentUser *followerModel.User) {
 	id, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)
@@ -22,7 +21,7 @@ func Followings(c *gin.Context, currentUser *userModel.User) {
 	// 如果要看的就是当前用户，那么就不用再去数据库中获取了
 	user := currentUser
 	if id != int(currentUser.ID) {
-		user, err = userModel.Get(id)
+		user, err = followerModel.UserGet(id)
 	}
 
 	if err != nil || user == nil {
@@ -54,7 +53,7 @@ func Followings(c *gin.Context, currentUser *userModel.User) {
 }
 
 // Followers 用户粉丝列表
-func Followers(c *gin.Context, currentUser *userModel.User) {
+func Followers(c *gin.Context, currentUser *followerModel.User) {
 	id, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)
@@ -64,7 +63,7 @@ func Followers(c *gin.Context, currentUser *userModel.User) {
 	// 如果要看的就是当前用户，那么就不用再去数据库中获取了
 	user := currentUser
 	if id != int(currentUser.ID) {
-		user, err = userModel.Get(id)
+		user, err = followerModel.UserGet(id)
 	}
 
 	if err != nil || user == nil {

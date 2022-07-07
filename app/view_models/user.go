@@ -1,7 +1,7 @@
 package viewmodels
 
 import (
-	userModel "gloves/app/models/user"
+	userModel "gloves/app/models"
 )
 
 // UserViewModel 用户

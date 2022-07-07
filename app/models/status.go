@@ -1,14 +1,49 @@
-package status
+package models
 
 import (
 	"fmt"
-	userModel "gloves/app/models/user"
 	"gloves/database"
+	"gloves/pkg/logger"
 	"strconv"
 )
 
-// Get -
-func Get(id int) (*Status, error) {
+// Status 内容
+type Status struct {
+	BaseModel
+	Content string `gorm:"column:context;type:text;not null"`
+	UserID  uint   `gorm:"column:user_id;not null" sql:"index"` // 一对多，关联 User Model
+}
+
+// TableName 表名
+func (Status) TableName() string {
+	return "statuses"
+}
+
+// Create -
+func (s *Status) Create() (err error) {
+	if err = database.DB.Create(&s).Error; err != nil {
+		logger.Warnf("创建失败: %v", err)
+		return err
+	}
+
+	return nil
+}
+
+// StatusDelete Delete -
+func StatusDelete(id int) (err error) {
+	status := &Status{}
+	status.BaseModel.ID = uint(id)
+
+	if err = database.DB.Delete(&status).Error; err != nil {
+		logger.Warnf("删除失败: %v", err)
+		return err
+	}
+
+	return nil
+}
+
+// StatusGet Get -
+func StatusGet(id int) (*Status, error) {
 	s := &Status{}
 	d := database.DB.First(&s, id)
 	return s, d.Error
@@ -16,7 +51,7 @@ func Get(id int) (*Status, error) {
 
 // GetByUsersStatusesCount 获取指定用户们的内容数量
 func GetByUsersStatusesCount(ids []uint) (int, error) {
-	sqlStr := fmt.Sprintf("select count(*) from %s where deleted_at is null and user_id in (", tableName)
+	sqlStr := "select count(*) from statuses where deleted_at is null and user_id in ("
 	l := len(ids) - 1
 	for i, v := range ids {
 		sqlStr = sqlStr + strconv.Itoa(int(v))
@@ -35,7 +70,7 @@ func GetByUsersStatusesCount(ids []uint) (int, error) {
 func GetByUsersStatuses(ids []uint, offset, limit int) ([]*Status, error) {
 	status := make([]*Status, 0)
 
-	sqlStr := fmt.Sprintf("select * from %s where deleted_at is null and user_id in (", tableName)
+	sqlStr := "select * from statuses where deleted_at is null and user_id in ("
 	l := len(ids) - 1
 	for i, v := range ids {
 		sqlStr = sqlStr + strconv.Itoa(int(v))
@@ -50,13 +85,13 @@ func GetByUsersStatuses(ids []uint, offset, limit int) ([]*Status, error) {
 }
 
 // GetUser 通过 status_id 获取该内容的所有者
-func GetUser(statusID int) (*userModel.User, error) {
-	s, err := Get(statusID)
+func GetUser(statusID int) (*User, error) {
+	s, err := StatusGet(statusID)
 	if err != nil {
 		return nil, err
 	}
 
-	u, err := userModel.Get(int(s.UserID))
+	u, err := UserGet(int(s.UserID))
 	if err != nil {
 		return nil, err
 	}

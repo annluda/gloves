@@ -1,7 +1,7 @@
 package services
 
 import (
-	userModel "gloves/app/models/user"
+	userModel "gloves/app/models"
 	viewmodels "gloves/app/view_models"
 	"sync"
 )

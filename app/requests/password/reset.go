@@ -1,8 +1,8 @@
 package password
 
 import (
+	userModel "gloves/app/models"
 	passwordResetModel "gloves/app/models/password_reset"
-	userModel "gloves/app/models/user"
 	"gloves/app/requests"
 )
 

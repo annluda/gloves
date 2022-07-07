@@ -1,7 +1,7 @@
 package user
 
 import (
-	userModel "gloves/app/models/user"
+	userModel "gloves/app/models"
 	"gloves/pkg/flash"
 
 	"github.com/gin-gonic/gin"

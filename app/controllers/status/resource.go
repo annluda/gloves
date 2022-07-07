@@ -2,8 +2,7 @@ package status
 
 import (
 	"gloves/app/controllers"
-	statusModel "gloves/app/models/status"
-	userModel "gloves/app/models/user"
+	"gloves/app/models"
 	"gloves/app/policies"
 	"gloves/pkg/flash"
 
@@ -11,7 +10,7 @@ import (
 )
 
 // Store 创建
-func Store(c *gin.Context, currentUser *userModel.User) {
+func Store(c *gin.Context, currentUser *models.User) {
 	content := c.DefaultPostForm("content", "")
 	contentLen := len(content)
 
@@ -27,7 +26,7 @@ func Store(c *gin.Context, currentUser *userModel.User) {
 	//  return
 	//}
 
-	status := &statusModel.Status{
+	status := &models.Status{
 		Content: content,
 		UserID:  currentUser.ID,
 	}
@@ -42,14 +41,14 @@ func Store(c *gin.Context, currentUser *userModel.User) {
 }
 
 // Destroy 删除
-func Destroy(c *gin.Context, currentUser *userModel.User) {
+func Destroy(c *gin.Context, currentUser *models.User) {
 	statusID, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)
 		return
 	}
 
-	status, err := statusModel.Get(statusID)
+	status, err := models.StatusGet(statusID)
 	if err != nil {
 		flash.NewDangerFlash(c, "删除失败")
 		backTo(c, currentUser)
@@ -62,7 +61,7 @@ func Destroy(c *gin.Context, currentUser *userModel.User) {
 	}
 
 	// 删除
-	if err := statusModel.Delete(int(status.ID)); err != nil {
+	if err := models.Delete(int(status.ID)); err != nil {
 		flash.NewDangerFlash(c, "删除失败")
 		backTo(c, currentUser)
 		return

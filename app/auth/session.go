@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	userModel "gloves/app/models/user"
+	"gloves/app/models"
 	"gloves/config"
 	"gloves/pkg/session"
 	"gloves/pkg/utils"
@@ -19,7 +19,7 @@ const (
 )
 
 // Login 登录
-func Login(c *gin.Context, u *userModel.User) {
+func Login(c *gin.Context, u *models.User) {
 	session.SetSession(c, config.AppConfig.AuthSessionKey, u.GetIDstring())
 	// 记住我
 	setRememberTokenInCookie(c, u)
@@ -33,11 +33,11 @@ func Logout(c *gin.Context) {
 
 // -------------- private --------------
 // getCurrentUserFromSession : 从 session 中获取用户
-func getCurrentUserFromSession(c *gin.Context) (*userModel.User, error) {
+func getCurrentUserFromSession(c *gin.Context) (*models.User, error) {
 	// 从 cookie 中获取 remember me token (如有则自动登录)
 	rememberMeToken := getRememberTokenFromCookie(c)
 	if rememberMeToken != "" {
-		if user, err := userModel.GetByRememberToken(rememberMeToken); err == nil {
+		if user, err := models.GetByRememberToken(rememberMeToken); err == nil {
 			Login(c, user)
 			return user, nil
 		}
@@ -55,7 +55,7 @@ func getCurrentUserFromSession(c *gin.Context) (*userModel.User, error) {
 		return nil, err
 	}
 
-	user, err := userModel.Get(id)
+	user, err := models.UserGet(id)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func getCurrentUserFromSession(c *gin.Context) (*userModel.User, error) {
 }
 
 // -------------- 记住我功能 utils --------------
-func setRememberTokenInCookie(c *gin.Context, u *userModel.User) {
+func setRememberTokenInCookie(c *gin.Context, u *models.User) {
 	// 记住我 (如果 登录的 PostForm 中有着 remember="on" 说明开启记住我功能)
 	rememberMe := c.PostForm(rememberFormKey) == "on"
 	if !rememberMe {
