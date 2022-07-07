@@ -27,6 +27,8 @@ func Logger() gin.HandlerFunc {
 			c.ClientIP(),
 			cost.String(),
 		)
+
+		//[GIN] 2022/07/07 - 11:29:55 | 302 |     487.718µs |       127.0.0.1 | POST     /logout
 	}
 }
 

@@ -63,7 +63,7 @@
                     </a>
                     <div class="media-body">
                       <h5 class="mt-0 mb-1">{{ $.userData.Name }} <small> / {{ .CreatedAt }}</small></h5>
-                      {{ .Content }}
+                      <pre>{{ .Content }}</pre>
                     </div>
                     {{ if eq .UserID $.currentUserData.ID }}
                       <form action='{{ Route "statuses.destroy" .ID }}' method="POST" onsubmit="return confirm('确定要删除本条内容吗？');">

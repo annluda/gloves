@@ -73,8 +73,8 @@ func (u *User) Update(needEncryotPwd bool) (err error) {
 	return nil
 }
 
-// Delete -
-func Delete(id int) (err error) {
+// UserDelete Delete -
+func UserDelete(id int) (err error) {
 	user := &User{}
 	user.BaseModel.ID = uint(id)
 

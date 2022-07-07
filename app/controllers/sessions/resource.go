@@ -40,7 +40,7 @@ func Store(c *gin.Context) {
 	//}
 
 	auth.Login(c, user)
-	flash.NewSuccessFlash(c, "欢迎回来！")
+	flash.NewSuccessFlash(c, "登录成功！")
 
 	// 返回上次访问的页面
 	back := c.Query("back")

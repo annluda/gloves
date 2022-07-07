@@ -61,7 +61,7 @@ func Destroy(c *gin.Context, currentUser *models.User) {
 	}
 
 	// 删除
-	if err := models.Delete(int(status.ID)); err != nil {
+	if err := models.StatusDelete(int(status.ID)); err != nil {
 		flash.NewDangerFlash(c, "删除失败")
 		backTo(c, currentUser)
 		return
