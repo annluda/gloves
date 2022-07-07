@@ -39,7 +39,7 @@ func Register(g *gin.Engine) *gin.Engine {
 	// web
 	registerWeb(g)
 	// api
-	registerApi(g)
+	//registerApi(g)
 
 	return g
 }
