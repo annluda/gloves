@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	followerModel "gloves/app/models"
+	"gloves/app/models"
 
 	"gloves/routes/named"
 
@@ -15,10 +15,10 @@ import (
 )
 
 // Index 用户列表
-func Index(c *gin.Context, currentUser *followerModel.User) {
+func Index(c *gin.Context, currentUser *models.User) {
 	defaultPageLine := 10
 
-	allUserCount, err := followerModel.AllCount()
+	allUserCount, err := models.AllCount()
 	if err != nil {
 		flash.NewDangerFlash(c, "获取用户数据失败: "+err.Error())
 		controllers.Redirect(c, named.G("users.index")+"?page=1", false)
@@ -45,7 +45,7 @@ func Create(c *gin.Context) {
 }
 
 // Show 用户详情
-func Show(c *gin.Context, currentUser *followerModel.User) {
+func Show(c *gin.Context, currentUser *models.User) {
 	id, err := controllers.GetIntParam(c, "id")
 	if err != nil {
 		controllers.Render404(c)
@@ -55,7 +55,7 @@ func Show(c *gin.Context, currentUser *followerModel.User) {
 	// 如果要看的就是当前用户，那么就不用再去数据库中获取了
 	user := currentUser
 	if id != int(currentUser.ID) {
-		user, err = followerModel.UserGet(id)
+		user, err = models.UserGet(id)
 	}
 
 	if err != nil || user == nil {
@@ -64,7 +64,7 @@ func Show(c *gin.Context, currentUser *followerModel.User) {
 	}
 
 	// 获取分页参数
-	statusesAllLength, _ := followerModel.GetUserAllStatusCount(int(user.ID))
+	statusesAllLength, _ := models.GetUserAllStatusCount(int(user.ID))
 	offset, limit, currentPage, pageTotalCount := controllers.GetPageQuery(c, 10, statusesAllLength)
 	if currentPage > pageTotalCount {
 		controllers.Redirect(c, named.G("users.show", id)+"?page=1", false)
@@ -72,18 +72,20 @@ func Show(c *gin.Context, currentUser *followerModel.User) {
 	}
 
 	// 获取用户的内容
-	statuses, _ := followerModel.GetUserStatus(int(user.ID), offset, limit)
+	statuses, _ := models.GetUserStatus(int(user.ID), offset, limit)
 	statusesViewModels := make([]*viewmodels.StatusViewModel, 0)
 	for _, s := range statuses {
 		statusesViewModels = append(statusesViewModels, viewmodels.NewStatusViewModelSerializer(s))
 	}
 	// 获取关注/粉丝
-	followingsLength, _ := followerModel.FollowingsCount(id)
-	followersLength, _ := followerModel.FollowersCount(id)
+	followingsLength, _ := models.FollowingsCount(id)
+	followersLength, _ := models.FollowersCount(id)
 	isFollowing := false
 	if id != int(currentUser.ID) {
-		isFollowing = followerModel.IsFollowing(int(currentUser.ID), id)
+		isFollowing = models.IsFollowing(int(currentUser.ID), id)
 	}
+
+	// 计时
 
 	controllers.Render(c, "user/show.html",
 		pagination.CreatePaginationFillToTplData(c, "page", currentPage, pageTotalCount, gin.H{
